@@ -1,6 +1,16 @@
+# https://sureshjoshi.com/embedded/ble113-ota-over-the-air-programming/
+# https://os.mbed.com/teams/Bluetooth-Low-Energy/wiki/Firmware-Over-the-Air-FOTA-Updates
+# https://www.novelbits.io/ota-device-firmware-update-part-1/
 gatt_profile:
   - BLE_SERVICE_PROXIMITY_UUID : "00000A00-5226-4AE0-8977-656FD3C42DA2"
   - BLE_CHARACTERISTIC_PROXIMITY_DISTANCE: "00000A02-5226-4AE0-8977-656FD3C42DA2"
   #
   - BLE_SERVICE_THERMOMETER_UUID : "00000B00-5226-4AE0-8977-656FD3C42DA2"
   - BLE_CHARACTERISTIC_THERMOMETER_READ : "00000B01-5226-4AE0-8977-656FD3C42DA2"
+  # Alpha profile
+  # OTA starting with F stand for "ok it Fucking Lit"
+  # BLOG https://sureshjoshi.com/embedded/ble113-ota-over-the-air-programming/
+  - BLE_SERVICE_OTA_UUID : "00000F00-5226-4AE0-8977-656FD3C42DA2"
+  - BLE_CHARACTERISTIC_OTA_CONTROL : "00000F01-5226-4AE0-8977-656FD3C42DA2"
+  # https://github.com/fbiego/ESP32_BLE_OTA_Arduino/blob/main/esp32_ble_ota/esp32_ble_ota.ino
+  - BLE_CHARACTERISTIC_OTA_DATA : "00000F02-5226-4AE0-8977-656FD3C42DA2"
