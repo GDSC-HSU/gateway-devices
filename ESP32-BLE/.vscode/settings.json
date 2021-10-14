@@ -1,3 +1,29 @@
 {
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "new": "cpp"
+    },
+    "todo-tree.tree.scanMode": "open files",
+    // "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+    "todo-tree.general.tags": [
+        "BUG",
+        "FIX",
+        "TODO",
+        "[ ]",
+        "[x]"
+    ],
+    "todo-tree.highlights.customHighlight": {
+        "[ ]": {
+            "background": "#ff000080"
+        },
+        "TODO": {
+            "background": "#dc41f1",
+            "foreground": "black",
+            "icon": "check",
+            "type": "line",
+        },
+        "[x]": {
+            "background": "#00ff0080"
+        }
+    }
 }

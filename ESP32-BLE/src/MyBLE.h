@@ -3,14 +3,23 @@
 bool deviceConnected = false;
 
 // Hidden wrapper class for setting GATT Server (Services, Characteristics)
+// TODO Make ESP32 running 2 core with xTask
+// Task are reading sensor and calling BLE wrapper
+// https://www.youtube.com/watch?v=El7_ZUn6NeU
+// using RTOS (Roud Robin Queue base one [execution quota] to comsume task)
+// https://github.com/chegewara/esp32-OTA-over-BLE/blob/master/BLE_server/main/main_ble.cpp
+
 class MyBLE
 {
 private:
     NimBLEServer *gpServer;
     NimBLEService *pProximityServices;
+    NimBLEService *pOTAServices;
+
     // Abstaction for bring-up services & charecteristic
     void proximityBLE();
-    void thermometerSerices();
+    void thermometerBLE();
+    void otaBLE();
     void configModeBLE();
     ///
 
@@ -19,7 +28,7 @@ public:
     MyBLE();
     ~MyBLE();
     void init(NimBLEServer *pBLE_SERVER);
-    void setProximity(int number);
+    void setProximity(int number, bool isNotify = true);
     // TODO :> OTA
     void enableOTA();
 
@@ -76,13 +85,21 @@ void MyBLE::proximityBLE()
     pProximityServices->start();
 }
 
-void MyBLE::configModeBLE()
+void MyBLE::otaBLE()
 {
+    pOTAServices = gpServer->createService(BLE_SERVICE_OTA_UUID);
+    // BLE_CHARACTERISTIC_OTA_CONTROL to acknowledgment current version checking
+    pOTAServices->createCharacteristic(BLE_CHARACTERISTIC_OTA_CONTROL, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
+
+    pOTAServices->createCharacteristic(BLE_CHARACTERISTIC_OTA_WRITE_NO_RSP, NIMBLE_PROPERTY::WRITE_NR);
 }
 
-void MyBLE::setProximity(int number)
+void MyBLE::setProximity(int number, bool isNotify)
 {
     NimBLECharacteristic *pCharacteristic = gpServer->getServiceByUUID(BLE_SERVICE_PROXIMITY_UUID)->getCharacteristic(BLE_CHARACTERISTIC_PROXIMITY_DISTANCE);
     pCharacteristic->setValue<int>(number);
-    pCharacteristic->notify();
+    if (isNotify)
+    {
+        pCharacteristic->notify();
+    }
 }

@@ -19,8 +19,10 @@ void setup()
   myBLE.init(gpServer);
 }
 
-// TODO mock create fake sensor data :> (currently in order :>)
-
+/* TODO mock create fake sensor data :> (currently in order & shipping :>)
+  - [x] proximity
+  - [ ] thermometer
+*/
 // TODO web-client for to controlling sensor over serial (python,nodejs maybe)
 // using keyboard input suck, web forward port client UI just click click :)) we could writing ours testcases
 // key/data (97:15)-> 97 for calling proximity - 15cm in range :>
