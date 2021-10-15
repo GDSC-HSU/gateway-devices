@@ -14,6 +14,8 @@ class MyBLE
 private:
     NimBLEServer *gpServer;
     NimBLEService *pProximityServices;
+    NimBLEService *pThermometerServices;
+
     NimBLEService *pOTAServices;
 
     // Abstaction for bring-up services & charecteristic
@@ -29,6 +31,7 @@ public:
     ~MyBLE();
     void init(NimBLEServer *pBLE_SERVER);
     void setProximity(int number, bool isNotify = true);
+    void setThermometer(int number, bool isNotify = true);
     // TODO :> OTA
     void enableOTA();
 
@@ -70,10 +73,11 @@ void MyBLE::init(NimBLEServer *pBLE_SERVER)
 
     // Bringing ours BLE Services up and it corrsponding charecteristic
     proximityBLE();
+    thermometerBLE();
 
     /// Advertisting GATT
     NimBLEAdvertising *pAdvertising = NimBLEDevice::getAdvertising();
-    pAdvertising->addServiceUUID(BLE_SERVICE_PROXIMITY_UUID);
+    // pAdvertising->addServiceUUID(BLE_SERVICE_PROXIMITY_UUID);
     pAdvertising->start();
     ////
 }
@@ -83,6 +87,13 @@ void MyBLE::proximityBLE()
     pProximityServices = gpServer->createService(BLE_SERVICE_PROXIMITY_UUID);
     pProximityServices->createCharacteristic(BLE_CHARACTERISTIC_PROXIMITY_DISTANCE, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
     pProximityServices->start();
+}
+
+void MyBLE::thermometerBLE()
+{
+    pThermometerServices = gpServer->createService(BLE_SERVICE_THERMOMETER_UUID);
+    pThermometerServices->createCharacteristic(BLE_CHARACTERISTIC_THERMOMETER_READ, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
+    pThermometerServices->start();
 }
 
 void MyBLE::otaBLE()
@@ -96,7 +107,16 @@ void MyBLE::otaBLE()
 
 void MyBLE::setProximity(int number, bool isNotify)
 {
-    NimBLECharacteristic *pCharacteristic = gpServer->getServiceByUUID(BLE_SERVICE_PROXIMITY_UUID)->getCharacteristic(BLE_CHARACTERISTIC_PROXIMITY_DISTANCE);
+    NimBLECharacteristic *pCharacteristic = pProximityServices->getCharacteristic(BLE_CHARACTERISTIC_PROXIMITY_DISTANCE);
+    pCharacteristic->setValue<int>(number);
+    if (isNotify)
+    {
+        pCharacteristic->notify();
+    }
+}
+void MyBLE::setThermometer(int number, bool isNotify)
+{
+    NimBLECharacteristic *pCharacteristic = pThermometerServices->getCharacteristic(BLE_CHARACTERISTIC_THERMOMETER_READ);
     pCharacteristic->setValue<int>(number);
     if (isNotify)
     {

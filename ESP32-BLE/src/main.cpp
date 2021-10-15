@@ -2,6 +2,7 @@
 #include <NimBLEDevice.h>
 #include <BLE_DESIGN.g.h>
 #include <MyBLE.h>
+#define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
 static NimBLEServer *gpServer;
@@ -21,7 +22,7 @@ void setup()
 
 /* TODO mock create fake sensor data :> (currently in order & shipping :>)
   - [x] proximity
-  - [ ] thermometer
+  - [x] thermometer
 */
 // TODO web-client for to controlling sensor over serial (python,nodejs maybe)
 // using keyboard input suck, web forward port client UI just click click :)) we could writing ours testcases
@@ -32,6 +33,7 @@ String serialInput;
 int key;
 int value;
 
+#ifdef DEBUG
 void parsingCommandFromSerial()
 {
   serialInput = Serial.readStringUntil('\n');
@@ -39,19 +41,26 @@ void parsingCommandFromSerial()
   key = atoi(serialInput.substring(0, index).c_str());
   value = atoi(serialInput.substring(index + 1, serialInput.length()).c_str());
 }
+#endif
 
 void loop()
 {
+#ifdef DEBUG
   while (Serial.available())
   {
     parsingCommandFromSerial();
-    Serial.print(key);
-    Serial.print(":");
-    Serial.print(value);
-    if (key == 97)
+    switch (key)
     {
+    case 97:
       myBLE.setProximity(value);
+      break;
+    case 65:
+      myBLE.setThermometer(value);
+      break;
+    default:
+      break;
     }
     Serial.flush();
   }
+#endif
 }
