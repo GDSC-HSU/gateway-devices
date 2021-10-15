@@ -26,7 +26,8 @@ def cHeaderFileLimbo(listOfData):
 
 def dartCode(listOfData):
     # import required library
-    output = "import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';\n"
+    output = "//Genrate in git submodule (ble_devices) -> ble_uuid+generator.py" + \ 
+    "\nimport 'package:flutter_reactive_ble/flutter_reactive_ble.dart';\n"
     servicesAsList = ""
     geneteuuid = ""
     for i in listOfData:
