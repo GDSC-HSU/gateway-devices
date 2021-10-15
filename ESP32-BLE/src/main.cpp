@@ -14,7 +14,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("Starting BLE server");
-  NimBLEDevice::init("esp32-gateway");
+  NimBLEDevice::init(DEVICE_NAME);
   NimBLEDevice::setPower(ESP_PWR_LVL_P9);
   gpServer = NimBLEDevice::createServer();
   myBLE.init(gpServer);
