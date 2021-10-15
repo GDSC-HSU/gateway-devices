@@ -5,6 +5,8 @@ pathTOHeaderFile = "./ESP32-BLE/src/BLE_DESIGN.g.h"
 
 pathToDartFile = "../lib/config/constants/ble_desgin_constants.g.dart"
 
+deviceId = "esp32-gateway"
+
 
 def read_config():
     with open("./ble_uuid_conf.yml") as f:
@@ -25,9 +27,11 @@ def cHeaderFileLimbo(listOfData):
 
 
 def dartCode(listOfData):
+    deviceName = '''const String DEVICE_NAME = "{deviceId}";'''.format(
+        deviceId=deviceId)
     # import required library
-    output = "//Genrate in git submodule (ble_devices) -> ble_uuid+generator.py" + \ 
-    "\nimport 'package:flutter_reactive_ble/flutter_reactive_ble.dart';\n"
+    output = "//Genrate in git submodule (ble_devices) -> ble_uuid+generator.py" + \
+        "\nimport 'package:flutter_reactive_ble/flutter_reactive_ble.dart';\n"
     servicesAsList = ""
     geneteuuid = ""
     for i in listOfData:
@@ -40,7 +44,7 @@ def dartCode(listOfData):
 
     servicesUUIDasListExport = '''List<Uuid> deviceServices = [{services}];'''.format(
         services=servicesAsList)
-    return output+geneteuuid+"\n"+servicesUUIDasListExport
+    return output+geneteuuid+"\n"+servicesUUIDasListExport+"\n"+deviceName
 
 
 def generate(fileGenrateCallback, fileLocation):
