@@ -30,8 +30,8 @@ public:
     MyBLE();
     ~MyBLE();
     void init(NimBLEServer *pBLE_SERVER);
-    void setProximity(int number, bool isNotify = true);
-    void setThermometer(int number, bool isNotify = true);
+    void setProximity(String number, bool isNotify = true);
+    void setThermometer(String number, bool isNotify = true);
     // TODO :> OTA
     void enableOTA();
 
@@ -105,19 +105,19 @@ void MyBLE::otaBLE()
     pOTAServices->createCharacteristic(BLE_CHARACTERISTIC_OTA_WRITE_NO_RSP, NIMBLE_PROPERTY::WRITE_NR);
 }
 
-void MyBLE::setProximity(int number, bool isNotify)
+void MyBLE::setProximity(String number, bool isNotify)
 {
     NimBLECharacteristic *pCharacteristic = pProximityServices->getCharacteristic(BLE_CHARACTERISTIC_PROXIMITY_DISTANCE);
-    pCharacteristic->setValue<int>(number);
+    pCharacteristic->setValue(number);
     if (isNotify)
     {
         pCharacteristic->notify();
     }
 }
-void MyBLE::setThermometer(int number, bool isNotify)
+void MyBLE::setThermometer(String number, bool isNotify)
 {
     NimBLECharacteristic *pCharacteristic = pThermometerServices->getCharacteristic(BLE_CHARACTERISTIC_THERMOMETER_READ);
-    pCharacteristic->setValue<int>(number);
+    pCharacteristic->setValue(number);
     if (isNotify)
     {
         pCharacteristic->notify();
