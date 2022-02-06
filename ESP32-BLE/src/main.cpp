@@ -31,7 +31,7 @@ void setup()
 // control sensor data state and calling gatt services and characteristics
 String serialInput;
 int key;
-int value;
+String value;
 
 #ifdef DEBUG
 void parsingCommandFromSerial()
@@ -39,7 +39,7 @@ void parsingCommandFromSerial()
   serialInput = Serial.readStringUntil('\n');
   int index = serialInput.indexOf(":");
   key = atoi(serialInput.substring(0, index).c_str());
-  value = atoi(serialInput.substring(index + 1, serialInput.length()).c_str());
+  value = serialInput.substring(index + 1, serialInput.length());
 }
 #endif
 
@@ -60,6 +60,7 @@ void loop()
     default:
       break;
     }
+    Serial.println(value);
     Serial.flush();
   }
 #endif
