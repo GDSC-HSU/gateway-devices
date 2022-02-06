@@ -32,8 +32,8 @@ def dartCode(listOfData):
     deviceNameDartCode = '''const String DEVICE_NAME = "{deviceId}";'''.format(
         deviceId=deviceName)
     # import required library
-    output = "//Genrate in git submodule (ble_devices) -> ble_uuid+generator.py" + \
-        "\nimport 'package:flutter_reactive_ble/flutter_reactive_ble.dart';\n"
+    output = "//Generate in git submodule (ble_devices) -> ble_uuid+generator.py" + \
+        "\nimport 'package:flutter_reactive_ble/flutter_reactive_ble.dart';\n// ignore_for_file: non_constant_identifier_names\n"
     servicesAsList = ""
     geneteuuid = ""
     for i in listOfData:
