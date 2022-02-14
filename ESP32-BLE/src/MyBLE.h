@@ -108,7 +108,7 @@ void MyBLE::otaBLE()
 void MyBLE::setProximity(String number, bool isNotify)
 {
     NimBLECharacteristic *pCharacteristic = pProximityServices->getCharacteristic(BLE_CHARACTERISTIC_PROXIMITY_DISTANCE);
-    pCharacteristic->setValue(number);
+    pCharacteristic->setValue(std::string(number.c_str()));
     if (isNotify)
     {
         pCharacteristic->notify();
@@ -117,7 +117,7 @@ void MyBLE::setProximity(String number, bool isNotify)
 void MyBLE::setThermometer(String number, bool isNotify)
 {
     NimBLECharacteristic *pCharacteristic = pThermometerServices->getCharacteristic(BLE_CHARACTERISTIC_THERMOMETER_READ);
-    pCharacteristic->setValue(number);
+    pCharacteristic->setValue(std::string(number.c_str()));
     if (isNotify)
     {
         pCharacteristic->notify();
