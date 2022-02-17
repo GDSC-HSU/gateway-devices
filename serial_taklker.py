@@ -2,8 +2,15 @@
 import serial
 import time
 import random
+import sys
+# its win32, maybe there is win64 too?
+is_windows = sys.platform.startswith('win')
+
 
 PORT = "/dev/cu.wchusbserial14210"
+
+if is_windows:
+    PORT = "COM3"
 
 arduino = serial.Serial(port=PORT,
                         baudrate=115200, timeout=.1)
@@ -37,4 +44,6 @@ def runner(callbackList):
 
 
 while 1:
-    runner([proximity_emulator, thermometer_emulator])
+    text = input("type in enter")
+    if text == "":
+        runner([proximity_emulator, thermometer_emulator])
