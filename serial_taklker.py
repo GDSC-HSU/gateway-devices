@@ -8,7 +8,7 @@ import sys
 is_windows = sys.platform.startswith('win')
 
 
-PORT = "/dev/cu.wchusbserial14210"
+PORT = "/dev/tty.usbserial-A50285BI"
 
 if is_windows:
     PORT = "COM3"
@@ -39,18 +39,18 @@ def thermometer_emulator():
     text = formatedText
 
 
-def presence_emulator():
-    global text
-    key = 3
-    num = "1"
-    formatedText = '''{key}:{counter}'''.format(key=key, counter=num)
-    text = formatedText
-
-
 def rfid_emulator():
     global text
     key = 4
     num = "z23az"
+    formatedText = '''{key}:{counter}'''.format(key=key, counter=num)
+    text = formatedText
+
+
+def radar_emulator():
+    global text
+    key = 3
+    num = "1"
     formatedText = '''{key}:{counter}'''.format(key=key, counter=num)
     text = formatedText
 
@@ -65,24 +65,24 @@ def runner(callbackList):
 
 def suite_normal():
     runner([
-        presence_emulator, proximity_emulator, thermometer_emulator, rfid_emulator,
+        proximity_emulator, thermometer_emulator, rfid_emulator,
     ])
 
 
 def text_to_sensor(text):
-    if text == "1":
-        return presence_emulator
     if text == "2":
         return thermometer_emulator
     if text == "3":
-        return rfid_emulator
-    if text == "4":
+        return radar_emulator
+    if text == "1":
         return proximity_emulator
-    return
+    if text == "4":
+        return rfid_emulator
+    return ""
 
 
-sensor_table = [["1:", "presence_emulator"], ["2:", "thermometer_emulator"], [
-    "3:", "rfid_emulator"], ["4:", "proximity_emulator"]]
+sensor_table = [["1:", "proximity_emulator"], ["2:", "thermometer_emulator"], [
+    "3:", "radar_emulator"], ["4:", "rfid_emulator"]]
 
 while 1:
     print("Type in sensor number to emulate over ble")
@@ -91,7 +91,11 @@ while 1:
         print('\t'.join(i))
     print("-----------")
     sensorType = input("type in number : ")
-    runner(text_to_sensor(sensorType))
+    if sensorType is not "":
+        runner([text_to_sensor(sensorType)])
+    else:
+        print("Wrong format")
+        time.sleep(1.5)
     clear()
     # if text == "":
     #     runner(

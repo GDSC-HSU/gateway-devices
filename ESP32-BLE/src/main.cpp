@@ -2,6 +2,7 @@
 #include <NimBLEDevice.h>
 #include <BLE_DESIGN.g.h>
 #include <MyBLE.h>
+#include <Wire.h>
 #define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
@@ -57,6 +58,12 @@ void loop()
       break;
     case 2:
       myBLE.setThermometer(value);
+      break;
+    case 3:
+      myBLE.setRadar(value);
+      break;
+    case 4:
+      myBLE.setRFID(value);
       break;
     default:
       break;
