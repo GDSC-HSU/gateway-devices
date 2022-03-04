@@ -20,6 +20,7 @@ void setup()
   myBLE.init(gpServer);
 }
 
+#ifdef DEBUG
 /* TODO mock create fake sensor data :> (currently in order & shipping :>)
   - [x] proximity
   - [x] thermometer
@@ -33,7 +34,6 @@ String serialInput;
 int key;
 String value;
 
-#ifdef DEBUG
 void parsingCommandFromSerial()
 {
   serialInput = Serial.readStringUntil('\n');
@@ -49,12 +49,13 @@ void loop()
   while (Serial.available())
   {
     parsingCommandFromSerial();
+    Serial.println(key);
     switch (key)
     {
-    case 97:
+    case 1:
       myBLE.setProximity(value);
       break;
-    case 65:
+    case 2:
       myBLE.setThermometer(value);
       break;
     default:
@@ -64,4 +65,6 @@ void loop()
     Serial.flush();
   }
 #endif
+
+  //
 }

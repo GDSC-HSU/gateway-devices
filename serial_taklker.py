@@ -21,7 +21,7 @@ text = ""
 
 def proximity_emulator():
     global text
-    key = 97
+    key = 1
     num = random.randrange(10, 20)
     formatedText = '''{key}:{counter}'''.format(key=key, counter=num)
     text = formatedText
@@ -29,7 +29,7 @@ def proximity_emulator():
 
 def thermometer_emulator():
     global text
-    key = 65
+    key = 2
     num = random.randrange(33, 40)
     formatedText = '''{key}:{counter}'''.format(key=key, counter=num)
     text = formatedText
