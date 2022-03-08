@@ -4,9 +4,9 @@ import serial
 import time
 import random
 import sys
+import uuid
 # its win32, maybe there is win64 too?
 is_windows = sys.platform.startswith('win')
-
 
 PORT = "/dev/tty.usbserial-A50285BI"
 
@@ -21,6 +21,11 @@ text = ""
 
 
 def clear(): return os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def getUUID():
+    totalByte = 22
+    return uuid.uuid4().hex[0:totalByte]
 
 
 def proximity_emulator():
@@ -42,7 +47,7 @@ def thermometer_emulator():
 def rfid_emulator():
     global text
     key = 4
-    num = "z23az"
+    num = getUUID()
     formatedText = '''{key}:{counter}'''.format(key=key, counter=num)
     text = formatedText
 
@@ -50,7 +55,7 @@ def rfid_emulator():
 def radar_emulator():
     global text
     key = 3
-    num = "1"
+    num = random.randrange(0, 1)
     formatedText = '''{key}:{counter}'''.format(key=key, counter=num)
     text = formatedText
 
@@ -84,6 +89,7 @@ def text_to_sensor(text):
 sensor_table = [["1:", "proximity_emulator"], ["2:", "thermometer_emulator"], [
     "3:", "radar_emulator"], ["4:", "rfid_emulator"]]
 
+
 while 1:
     print("Type in sensor number to emulate over ble")
     print("-----------")
@@ -91,7 +97,7 @@ while 1:
         print('\t'.join(i))
     print("-----------")
     sensorType = input("type in number : ")
-    if sensorType is not "":
+    if sensorType != "":
         runner([text_to_sensor(sensorType)])
     else:
         print("Wrong format")
