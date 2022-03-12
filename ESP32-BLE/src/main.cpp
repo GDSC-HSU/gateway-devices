@@ -2,13 +2,17 @@
 #include <NimBLEDevice.h>
 #include <BLE_DESIGN.g.h>
 #include <MyBLE.h>
-#define DEBUG
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_MLX90614.h>
+// #define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
 static NimBLEServer *gpServer;
 
 // Hidden wrapper for gatt server setup & control central pairing
 static MyBLE myBLE;
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 
 void setup()
 {
@@ -18,6 +22,8 @@ void setup()
   NimBLEDevice::setPower(ESP_PWR_LVL_P9);
   gpServer = NimBLEDevice::createServer();
   myBLE.init(gpServer);
+  Wire.begin(0,4,10000);
+  mlx.begin();
 }
 
 /* TODO mock create fake sensor data :> (currently in order & shipping :>)
@@ -64,5 +70,6 @@ void loop()
     Serial.flush();
   }
 #endif
-////alo 123 456 789
+Serial.print(mlx.readObjectTempC());
+Serial.print("*C");
 }
