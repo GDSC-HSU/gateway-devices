@@ -3,6 +3,8 @@
 #include <BLE_DESIGN.g.h>
 #include <MyBLE.h>
 #include <Wire.h>
+#include <Adafruit_MLX90614.h>
+#include <SPI.h>
 #define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
