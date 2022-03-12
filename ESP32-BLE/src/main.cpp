@@ -2,6 +2,7 @@
 #include <NimBLEDevice.h>
 #include <BLE_DESIGN.g.h>
 #include <MyBLE.h>
+#include <Wire.h>
 #define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
@@ -20,6 +21,7 @@ void setup()
   myBLE.init(gpServer);
 }
 
+#ifdef DEBUG
 /* TODO mock create fake sensor data :> (currently in order & shipping :>)
   - [x] proximity
   - [x] thermometer
@@ -33,7 +35,6 @@ String serialInput;
 int key;
 String value;
 
-#ifdef DEBUG
 void parsingCommandFromSerial()
 {
   serialInput = Serial.readStringUntil('\n');
@@ -49,13 +50,20 @@ void loop()
   while (Serial.available())
   {
     parsingCommandFromSerial();
+    Serial.println(key);
     switch (key)
     {
-    case 97:
+    case 1:
       myBLE.setProximity(value);
       break;
-    case 65:
+    case 2:
       myBLE.setThermometer(value);
+      break;
+    case 3:
+      myBLE.setRadar(value);
+      break;
+    case 4:
+      myBLE.setRFID(value);
       break;
     default:
       break;
@@ -64,4 +72,6 @@ void loop()
     Serial.flush();
   }
 #endif
+
+  //
 }
