@@ -3,10 +3,6 @@
 // TODO Setup for other services
 MyBLE::MyBLE() {}
 
-MyBLE::~MyBLE()
-{
-}
-
 void MyBLE::init(NimBLEServer *pBLE_SERVER)
 {
     gpServer = pBLE_SERVER;

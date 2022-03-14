@@ -10,7 +10,6 @@
 // using RTOS (Roud Robin Queue base one [execution quota] to comsume task)
 // https://github.com/chegewara/esp32-OTA-over-BLE/blob/master/BLE_server/main/main_ble.cpp
 
-
 #ifndef MYBLE_H_
 #define MYBLE_H_
 class MyBLE
@@ -36,7 +35,7 @@ private:
     /* data */
 public:
     MyBLE();
-    ~MyBLE();
+
     void init(NimBLEServer *pBLE_SERVER);
     void setProximity(String number, bool isNotify = true);
     void setThermometer(String number, bool isNotify = true);
