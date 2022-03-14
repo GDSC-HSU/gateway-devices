@@ -5,13 +5,22 @@
 #include <Wire.h>
 #include <Adafruit_MLX90614.h>
 #include <SPI.h>
-#define DEBUG
+#include <PN532_SPI.h>
+#include <PN532.h>
+#include <NfcAdapter.h>
+// #define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
 static NimBLEServer *gpServer;
 
 // Hidden wrapper for gatt server setup & control central pairing
 static MyBLE myBLE;
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+
+///
+PN532_SPI interface(SPI, 5); // create a PN532 SPI interface with the SPI CS terminal located at digital pin 10
+NfcAdapter nfc = NfcAdapter(interface); 
+String tagId = "None";
 
 void setup()
 {
@@ -21,6 +30,9 @@ void setup()
   NimBLEDevice::setPower(ESP_PWR_LVL_P9);
   gpServer = NimBLEDevice::createServer();
   myBLE.init(gpServer);
+  // mlx.begin();
+   nfc.begin();
+
 }
 
 #ifdef DEBUG
@@ -45,6 +57,15 @@ void parsingCommandFromSerial()
   value = serialInput.substring(index + 1, serialInput.length());
 }
 #endif
+void readNFC() {
+ if (nfc.tagPresent())
+ {
+   NfcTag tag = nfc.read();
+   tag.print();
+   tagId = tag.getUidString();
+   myBLE.setRFID(tagId);
+ }
+}
 
 void loop()
 {
@@ -74,6 +95,6 @@ void loop()
     Serial.flush();
   }
 #endif
-
-  //
+ readNFC();
 }
+
