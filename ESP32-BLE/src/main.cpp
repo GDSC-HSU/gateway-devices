@@ -1,11 +1,22 @@
 #include <Arduino.h>
 #include <NimBLEDevice.h>
 #include <BLE_DESIGN.g.h>
+
 ///
+#ifndef Adafruit_MLX90614_H
+#define Adafruit_MLX90614_H
+#include <Adafruit_MLX90614.h>
+#endif
+//
+
+#include <PN532_SPI.h>
+#include <PN532.h>
+#include <NfcAdapter.h>
+//
 #include <MyBLE.h>
+
+//
 #include <MySensor.h>
-
-
 
 // #define DEBUG
 
@@ -14,14 +25,11 @@ static NimBLEServer *gpServer;
 
 // Hidden wrapper for gatt server setup & control central pairing
 static MyBLE myBLE;
+static MySensor mySensor;
 
-// static MySensor mySensor;
-// Adafruit_MLX90614 mlx = Adafruit_MLX90614();
-
-///
-// PN532_SPI interface(SPI, 5); // create a PN532 SPI interface with the SPI CS terminal located at digital pin 10
-// NfcAdapter nfc = NfcAdapter(interface); 
-String tagId = "None";
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+PN532_SPI interface(SPI, 5);
+NfcAdapter nfc = NfcAdapter(interface);
 
 void setup()
 {
@@ -31,23 +39,9 @@ void setup()
   NimBLEDevice::setPower(ESP_PWR_LVL_P9);
   gpServer = NimBLEDevice::createServer();
   myBLE.init(gpServer);
-  // mySensor.init(&myBLE);
-
-  
-  // while (!Serial);
-
-  // Serial.println("Adafruit MLX90614 test");
-  // if(!Wire.begin(21,22)){
-  //       Serial.println("Error Wire.begin(21,2)");
-
-  // }
-  // if (!mlx.begin()) {
-  //   Serial.println("Error connecting to MLX sensor. Check wiring.");
-  //   while (1);
-  // };
-  // mlx.begin();
-  //  nfc.begin();
-
+  delay(1000);
+  mySensor.init(&myBLE, &nfc, &mlx);
+  delay(1000);
 }
 
 #ifdef DEBUG
@@ -72,15 +66,6 @@ void parsingCommandFromSerial()
   value = serialInput.substring(index + 1, serialInput.length());
 }
 #endif
-// void readNFC() {
-//  if (nfc.tagPresent())
-//  {
-//    NfcTag tag = nfc.read();
-//    tag.print();
-//    tagId = tag.getUidString();
-//    myBLE.setRFID(tagId);
-//  }
-// }
 
 void loop()
 {
@@ -110,14 +95,9 @@ void loop()
     Serial.flush();
   }
 #endif
-  // Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempC());
-  // Serial.print("*C\tObject = "); Serial.print(mlx.readObjectTempC()); Serial.println("*C");
-  // Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempF());
-  // Serial.print("*F\tObject = "); Serial.print(mlx.readObjectTempF()); Serial.println("*F");
-
-  // Serial.println();
-  // delay(500);
-  //
-//  readNFC();
+  if (mySensor.isMotionApper())
+  {
+    mySensor.readThermometer();
+    mySensor.readRFID();
+  }
 }
-
