@@ -3,7 +3,12 @@
 #include <BLE_DESIGN.g.h>
 #include <MyBLE.h>
 #include <Wire.h>
-#define DEBUG
+#include <SPI.h>
+#include <Adafruit_MLX90614.h>
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+
+
+// #define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
 static NimBLEServer *gpServer;
@@ -19,6 +24,18 @@ void setup()
   NimBLEDevice::setPower(ESP_PWR_LVL_P9);
   gpServer = NimBLEDevice::createServer();
   myBLE.init(gpServer);
+  
+  while (!Serial);
+
+  Serial.println("Adafruit MLX90614 test");
+  if(!Wire.begin(21,22)){
+        Serial.println("Error Wire.begin(21,2)");
+
+  }
+  if (!mlx.begin()) {
+    Serial.println("Error connecting to MLX sensor. Check wiring.");
+    while (1);
+  };
 }
 
 #ifdef DEBUG
@@ -72,6 +89,12 @@ void loop()
     Serial.flush();
   }
 #endif
+  Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempC());
+  Serial.print("*C\tObject = "); Serial.print(mlx.readObjectTempC()); Serial.println("*C");
+  Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempF());
+  Serial.print("*F\tObject = "); Serial.print(mlx.readObjectTempF()); Serial.println("*F");
 
+  Serial.println();
+  delay(500);
   //
 }
