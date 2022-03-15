@@ -57,10 +57,11 @@ void MySensor::readRFID()
 
 bool MySensor::isMotionApper()
 {
-    // TODO add
+    // TODO add millis
     int isMotionApper = digitalRead(RADAR_PIN);
-    String isMotionApperAsString = String(ptr_MLX->readObjectTempC());
-    ptr_MyBLE->setRadar(isMotionApperAsString);
+    // String isMotionApperAsString = String(isMotionApper);
+    // // MOCK
+    // ptr_MyBLE->setRadar(isMotionApperAsString);
     if (isMotionApper == HIGH)
     {
         return true;

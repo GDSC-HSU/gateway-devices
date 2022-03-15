@@ -95,7 +95,7 @@ void loop()
     Serial.flush();
   }
 #endif
-  if (mySensor.isMotionApper())
+  mySensor.isMotionApper();
   {
     mySensor.readThermometer();
     mySensor.readRFID();
