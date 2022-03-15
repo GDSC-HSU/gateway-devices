@@ -104,3 +104,6 @@ void MyBLE::setRFID(String number, bool isNotify)
         pCharacteristic->notify();
     }
 }
+bool MyBLE::isMobileConnected(){
+   return deviceConnected;
+}

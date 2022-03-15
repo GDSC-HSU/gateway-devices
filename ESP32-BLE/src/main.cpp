@@ -18,6 +18,9 @@
 //
 #include <MySensor.h>
 
+///
+#include <Bounce2.h>
+
 // #define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
@@ -30,6 +33,7 @@ static MySensor mySensor;
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 PN532_SPI interface(SPI, 5);
 NfcAdapter nfc = NfcAdapter(interface);
+Bounce radarBounce = Bounce(); // Instantiate a Bounce object
 
 void setup()
 {
@@ -42,6 +46,8 @@ void setup()
   delay(1000);
   mySensor.init(&myBLE, &nfc, &mlx);
   delay(1000);
+  radarBounce.attach(RADAR_PIN, INPUT);
+
 }
 
 #ifdef DEBUG
@@ -66,6 +72,7 @@ void parsingCommandFromSerial()
   value = serialInput.substring(index + 1, serialInput.length());
 }
 #endif
+
 
 void loop()
 {
@@ -95,9 +102,25 @@ void loop()
     Serial.flush();
   }
 #endif
-  mySensor.isMotionApper();
-  {
-    mySensor.readThermometer();
+
+#ifndef DEBUG
+if (myBLE.isMobileConnected())
+{
+ 
+  radarBounce.update();
+ if (radarBounce.rose())
+ {
+    mySensor.isMotionApper();
+ }
+ if(radarBounce.fell()){
+    mySensor.isMotionApper();
+ }
+ if(radarBounce.read()== HIGH){
     mySensor.readRFID();
-  }
+    mySensor.readThermometer();
+ }
+}
+
+// Serial.println(radarBounce.read());
+#endif
 }

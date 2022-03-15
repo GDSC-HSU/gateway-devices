@@ -33,7 +33,8 @@ void MySensor::initThermometer(Adafruit_MLX90614 *mlx)
 
 void MySensor::initRadarProximity()
 {
-    pinMode(RADAR_PIN, INPUT);
+    // OneButton hanlder
+    // pinMode(RADAR_PIN, INPUT);
 }
 
 void MySensor::initNFC(NfcAdapter *nfc)
@@ -42,7 +43,10 @@ void MySensor::initNFC(NfcAdapter *nfc)
     ptr_NFC->begin();
 }
 
-void MySensor::readRFID()
+///----------------------------------
+// SENSOR READING
+
+void MySensor::readRFID(bool isNotify)
 {
     // void readNFC()
     // {
@@ -50,27 +54,34 @@ void MySensor::readRFID()
     {
         NfcTag tag = ptr_NFC->read();
         String tagID = tag.getUidString();
-        ptr_MyBLE->setRFID(tagID);
+        if (isNotify)
+        {
+            ptr_MyBLE->setRFID(tagID);        
+        }
     }
     // }
 }
 
-bool MySensor::isMotionApper()
+bool MySensor::isMotionApper(bool isNotify)
 {
     // TODO add millis
     int isMotionApper = digitalRead(RADAR_PIN);
-    // String isMotionApperAsString = String(isMotionApper);
-    // // MOCK
-    // ptr_MyBLE->setRadar(isMotionApperAsString);
-    if (isMotionApper == HIGH)
+
+    if (isNotify)
     {
-        return true;
+        String isMotionApperAsString = String(isMotionApper);
+        ptr_MyBLE->setRadar(isMotionApperAsString);
     }
-    return false;
+    
+    return isMotionApper;
 }
 
-void MySensor::readThermometer()
+void MySensor::readThermometer(bool isNotify)
 {
     String temp = String(ptr_MLX->readObjectTempC());
-    ptr_MyBLE->setThermometer(temp);
+    if (isNotify)
+    {
+        ptr_MyBLE->setThermometer(temp);
+    }
+    
 }

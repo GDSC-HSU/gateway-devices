@@ -10,8 +10,10 @@
 // using RTOS (Roud Robin Queue base one [execution quota] to comsume task)
 // https://github.com/chegewara/esp32-OTA-over-BLE/blob/master/BLE_server/main/main_ble.cpp
 
+
 #ifndef MYBLE_H_
 #define MYBLE_H_
+static bool deviceConnected = false;
 class MyBLE
 {
 private:
@@ -35,8 +37,8 @@ private:
     /* data */
 public:
     MyBLE();
-
     void init(NimBLEServer *pBLE_SERVER);
+    bool isMobileConnected();
     void setProximity(String number, bool isNotify = true);
     void setThermometer(String number, bool isNotify = true);
     void setRadar(String number, bool isNotify = true);
@@ -49,7 +51,7 @@ public:
         // TODO enable connected (1) -> gat disable advertise GATT profile packages for CPU, power mather
         void onConnect(NimBLEServer *pServer)
         {
-            // deviceConnected = true;
+            deviceConnected = true;
         }
 
         void onDisconnect(NimBLEServer *pServer, ble_gap_conn_desc *desc)
@@ -60,7 +62,7 @@ public:
             // This allows us to use the whitelist to filter connection attempts
             // which will minimize reconnection time.
             NimBLEDevice::whiteListAdd(NimBLEAddress(desc->peer_ota_addr));
-            // deviceConnected = false;
+            deviceConnected = false;
         }
         void onMTUChange(uint16_t MTU, ble_gap_conn_desc *desc)
         {

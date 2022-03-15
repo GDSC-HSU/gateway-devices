@@ -44,14 +44,15 @@ public:
     MySensor();
 
     void init(MyBLE *myBLE, NfcAdapter *nfc, Adafruit_MLX90614 *mlx);
-    bool isMotionApper();
-    void readRFID();
-    void readProximity();
-    void readThermometer();
+    bool isMotionApper(bool isNotify = true);
+    void readRFID(bool isNotify = true);
+    void readProximity(bool isNotify = true);
+    void readThermometer(bool isNotify = true);
 
-    void notifyRFID(String value);
-    void notifyProximity(String value);
-    void notifyThermometer(String value);
+    // void notifyRFID(String value);
+    // void notifyProximity(String value);
+    // void notifyThermometer(String value);
+    // void notifyRadar(bool value);
 };
 
 #endif
