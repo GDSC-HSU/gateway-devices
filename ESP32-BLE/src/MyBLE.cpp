@@ -19,11 +19,15 @@ void MyBLE::init(NimBLEServer *pBLE_SERVER)
     const char *manufacturer = "GDSC-HSU:v0.1.2";
     NimBLEAdvertising *pAdvertising = NimBLEDevice::getAdvertising();
     // pAdvertising->addServiceUUID(BLE_SERVICE_PROXIMITY_UUID);
+    pAdvertising->setManufacturerData(manufacturer);
+
     pAdvertising->addServiceUUID(BLE_SERVICE_PROXIMITY_UUID);
     pAdvertising->addServiceUUID(BLE_SERVICE_THERMOMETER_UUID);
     pAdvertising->addServiceUUID(BLE_SERVICE_RADAR_UUID);
     pAdvertising->addServiceUUID(BLE_SERVICE_RFID_UUID);
-    pAdvertising->setManufacturerData(manufacturer);
+    pAdvertising->addServiceUUID(BLE_SERVICE_BATTERY);
+    pAdvertising->addServiceUUID(BLE_SERVICE_OTA_UUID);
+
     pAdvertising->start();
     ////
 }
