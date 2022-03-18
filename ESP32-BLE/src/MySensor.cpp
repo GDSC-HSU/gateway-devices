@@ -10,9 +10,11 @@ void MySensor::isSensorBeginFail(bool beginResult, String sensorName)
     }
 }
 
-void MySensor::log(String text)
+void MySensor::log(String sensorName , String data)
 {
-    Serial.println(text);
+    #ifdef DEBUG_DATA_LOG
+        Serial.println("[DEV] SensorData:" + sensorName + "\t" + data);
+    #endif
 }
 
 void MySensor::init(MyBLE *myBLE, NfcAdapter *nfc, Adafruit_MLX90614 *mlx)
@@ -21,6 +23,7 @@ void MySensor::init(MyBLE *myBLE, NfcAdapter *nfc, Adafruit_MLX90614 *mlx)
     initThermometer(mlx);
     initNFC(nfc);
     initRadarProximity();
+    initThermometerProximity();
 }
 void MySensor::initThermometer(Adafruit_MLX90614 *mlx)
 {
@@ -43,6 +46,10 @@ void MySensor::initNFC(NfcAdapter *nfc)
     ptr_NFC->begin();
 }
 
+void MySensor::initThermometerProximity(){
+    pinMode(THERMOMETER_PROXIMITY_PIN,INPUT);
+}
+
 ///----------------------------------
 // SENSOR READING
 
@@ -54,6 +61,7 @@ void MySensor::readRFID(bool isNotify)
     {
         NfcTag tag = ptr_NFC->read();
         String tagID = tag.getUidString();
+        log("NFC",tagID);
         if (isNotify)
         {
             ptr_MyBLE->setRFID(tagID);        
@@ -66,10 +74,10 @@ bool MySensor::isMotionApper(bool isNotify)
 {
     // TODO add millis
     int isMotionApper = digitalRead(RADAR_PIN);
-
+    String isMotionApperAsString = String(isMotionApper);
+    log("Motion",isMotionApperAsString);
     if (isNotify)
     {
-        String isMotionApperAsString = String(isMotionApper);
         ptr_MyBLE->setRadar(isMotionApperAsString);
     }
     
@@ -79,9 +87,17 @@ bool MySensor::isMotionApper(bool isNotify)
 void MySensor::readThermometer(bool isNotify)
 {
     String temp = String(ptr_MLX->readObjectTempC());
+    log("Thermometer",temp);
     if (isNotify)
     {
         ptr_MyBLE->setThermometer(temp);
     }
     
+}
+
+bool MySensor::isThermometerProximityEnough(){
+    short value = digitalRead(THERMOMETER_PROXIMITY_PIN);
+    log("ThermometerProximityEnough",String(value));
+
+    return value;
 }

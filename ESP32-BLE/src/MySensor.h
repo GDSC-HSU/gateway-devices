@@ -1,5 +1,6 @@
 #include "MyBLE.h"
 #include "sensor_pin.h"
+#include "device_config.h"
 
 /// dependency libary
 #ifndef Adafruit_MLX90614_H
@@ -25,7 +26,7 @@ private:
     Adafruit_MLX90614 *ptr_MLX;
     NfcAdapter *ptr_NFC;
     //
-    void initProximity();
+    void initThermometerProximity();
 
     // init Adafruit_MLX90614
     void initThermometer(Adafruit_MLX90614 *mlx);
@@ -34,7 +35,7 @@ private:
     void initRadarProximity();
     //
     void initNFC(NfcAdapter *nfc);
-    void log(String text);
+    void log(String sensorName , String data);
 
     //
 
@@ -48,6 +49,9 @@ public:
     void readRFID(bool isNotify = true);
     void readProximity(bool isNotify = true);
     void readThermometer(bool isNotify = true);
+
+    bool isThermometerProximityEnough();
+
 
     // void notifyRFID(String value);
     // void notifyProximity(String value);

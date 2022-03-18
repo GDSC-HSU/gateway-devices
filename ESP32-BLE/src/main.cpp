@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <device_config.h>
 #include <NimBLEDevice.h>
 #include <BLE_DESIGN.g.h>
 
@@ -21,7 +22,6 @@
 ///
 #include <Bounce2.h>
 
-// #define DEBUG
 
 // gpServer is use to controlling BLE GATT with sensor
 static NimBLEServer *gpServer;
@@ -77,6 +77,8 @@ void parsingCommandFromSerial()
 void loop()
 {
 #ifdef DEBUG
+
+  // BLE SENSOR DATA SERIAL COMMUNICATION EMULATOR
   while (Serial.available())
   {
     parsingCommandFromSerial();
@@ -104,6 +106,10 @@ void loop()
 #endif
 
 #ifndef DEBUG
+/* TODO common interface for logging in 
+ - [] MySensor 
+ - [] MyBLe
+*/
 if (myBLE.isMobileConnected())
 {
  
@@ -117,7 +123,10 @@ if (myBLE.isMobileConnected())
  }
  if(radarBounce.read()== HIGH){
     mySensor.readRFID();
-    mySensor.readThermometer();
+    if (mySensor.isThermometerProximityEnough())
+    {
+      mySensor.readThermometer();
+    }
  }
 }
 
