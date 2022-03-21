@@ -11,7 +11,7 @@ is_windows = sys.platform.startswith('win')
 PORT = "/dev/tty.usbserial-A50285BI"
 
 if is_windows:
-    PORT = "COM3"
+    PORT = "COM5"
 
 arduino = serial.Serial(port=PORT,
                         baudrate=115200, timeout=.1)
@@ -40,7 +40,7 @@ def thermometer_emulator():
     global text
     key = 2
     num = random.randrange(33, 40)
-    formatedText = '''{key}:{counter}'''.format(key=key, counter=num)
+    formatedText = '''{key}:{counter}'''.format(key=key, counter=float(num)+0.1)
     text = formatedText
 
 

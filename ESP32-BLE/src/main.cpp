@@ -44,10 +44,11 @@ void setup()
   gpServer = NimBLEDevice::createServer();
   myBLE.init(gpServer);
   delay(1000);
+  #ifndef DEBUG
   mySensor.init(&myBLE, &nfc, &mlx);
   delay(1000);
   radarBounce.attach(RADAR_PIN, INPUT);
-
+  #endif
 }
 
 #ifdef DEBUG
