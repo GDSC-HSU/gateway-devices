@@ -1,6 +1,25 @@
 # gateway-devices
 Git submodules contain supported device, board-schematic, mock emulator codebase
 
+#### Hardware Part
+```Part could be order (cheaply) - here are direct link for visual aspect```
+
+
+
+```BLE Board```
+1. [ESP32 TTGO T8 V1.7](https://vi.aliexpress.com/item/33043952133.html)
+``` Sensor part```
+1. [Radar motion Sensor : RCWL-0516](https://www.amazon.com/RCWL-0516-Microwave-Induction-Envistia-Mall/dp/B07QMZF1BV)
+1. [RFID/NFC : PN532](https://electropeak.com/pn532-nfc-rfid-reader-writer).
+1. [Contact-less Infrared Sensor : MLX90614](https://www.adafruit.com/product/1748)
+1. [Cheap proximity sensor : UNKNOWN](https://www.engineersgarage.com/proximity-sensors-optical-ultrasonic-inductive-magnetic-capacitive/) support MLX90614 reading in close range
+
+```3D printed```
+
+
+#### Wired diagram
+
+
 #### 2. IoT division
 
 Flutter application as an testing suite for IoT BLE is hard-complex to develop "within our develop resource and time"
