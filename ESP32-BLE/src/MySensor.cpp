@@ -99,5 +99,5 @@ bool MySensor::isThermometerProximityEnough(){
     short value = digitalRead(THERMOMETER_PROXIMITY_PIN);
     log("ThermometerProximityEnough",String(value));
 
-    return value;
+    return !value;
 }
