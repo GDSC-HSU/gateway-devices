@@ -1,6 +1,13 @@
 # gateway-devices
 Git submodules contain supported device, board-schematic, mock emulator codebase
 
+##### ```SOLUTION IN ACTION```
+We submit our solution in GDSC Solution challenge 2022 base on 17 Sustainable Development Goals of the United Nations more info could be found [here](https://developers.google.com/community/gdsc-solution-challenge) 
+
+Youtube : https://www.youtube.com/watch?v=W5LBuIvWCd8
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=W5LBuIvWCd8" target="_blank"><img width=200 src="http://img.youtube.com/vi/W5LBuIvWCd8/0.jpg" 
+alt="Gateway - GDSC Solution Challenge 2022"/></a>
 #### Installation
 1. Platform IO as our IDE of chose for IoT development
 [Platform IO - VScode Install](https://platformio.org/install/ide?install=vscode)
@@ -22,19 +29,27 @@ Git submodules contain supported device, board-schematic, mock emulator codebase
 #### Hardware Part
 ```Part could be order (cheaply) - here are direct link for visual aspect```
 
-```BLE Board```
+##### ```BLE Board```
 1. [ESP32 TTGO T8 V1.7](https://vi.aliexpress.com/item/33043952133.html)
-``` Sensor part```
+##### ``` Sensor part```
 1. [Radar motion Sensor : RCWL-0516](https://www.amazon.com/RCWL-0516-Microwave-Induction-Envistia-Mall/dp/B07QMZF1BV)
 1. [RFID/NFC : PN532](https://electropeak.com/pn532-nfc-rfid-reader-writer).
 1. [Contact-less Infrared Sensor : MLX90614](https://www.adafruit.com/product/1748)
 1. [Cheap proximity sensor : UNKNOWN](https://www.engineersgarage.com/proximity-sensors-optical-ultrasonic-inductive-magnetic-capacitive/) support MLX90614 reading in close range
 
-```3D printed```
+##### ```3D printed model```
 
+```
+
+- 3D-MODEL/
+        - box-pn532.stl"
+        - esp32-ttgo-box.STL"
+        - motion-dection-box.STL"
+        - thermal-and-proximity-box.STL"
+ ```
 
 #### Wired diagram
-
+``` work in process```
 
 #### 2. IoT division
 
